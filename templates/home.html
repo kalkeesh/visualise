@@ -18,7 +18,6 @@
         <h1>Visualize Data</h1>
         <div class="row">
             <div class="col-md-3">
-                <!-- Menu Bar -->
                 <div class="list-group">
                     <button class="list-group-item list-group-item-action" onclick="showSection('single-material')">Single Material Plot</button>
                     <button class="list-group-item list-group-item-action" onclick="showSection('compare-materials')">Compare Materials</button>
@@ -26,7 +25,6 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <!-- Single Material Plot Section -->
                 <div id="single-material" class="content-section">
                     <div class="card card-body">
                         <h2>Single Material Plot</h2>
@@ -50,7 +48,6 @@
                     </div>
                 </div>
 
-                <!-- Compare Materials Section -->
                 <div id="compare-materials" class="content-section" style="display: none;">
                     <div class="card card-body">
                         <h2>Compare Materials</h2>
@@ -84,7 +81,6 @@
                     </div>
                 </div>
 
-                <!-- Compare Months Section -->
                 <div id="compare-months" class="content-section" style="display: none;">
                     <div class="card card-body">
                         <h2>Compare Months</h2>
@@ -122,7 +118,6 @@
     </div>
 
     <script>
-        // Function to display the correct section
         function showSection(sectionId) {
             const sections = document.querySelectorAll('.content-section');
             sections.forEach(section => {
@@ -131,20 +126,18 @@
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.style.display = 'block';
-                sessionStorage.setItem('activeSection', sectionId); // Store active section
+                sessionStorage.setItem('activeSection', sectionId); 
             }
         }
 
-        // On page load, display the section corresponding to the session storage value
         window.onload = function() {
             const storedSection = sessionStorage.getItem('activeSection');
             if (storedSection && document.getElementById(storedSection)) {
                 showSection(storedSection);
             } else {
-                showSection('single-material'); // Default section
+                showSection('single-material');
             }
 
-            // Handle theme toggle
             const toggleButton = document.getElementById('theme-toggle');
             const currentMode = localStorage.getItem('theme') || 'light-mode';
             document.body.classList.add(currentMode);
