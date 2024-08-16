@@ -6,6 +6,29 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
 }
+body.light-mode {
+    --bg-color: #f8f9fa;
+    --text-color: #343a40;
+    --card-bg: #ffffff;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --h1-color: #343a40;
+    --h2-color: #0d6efd;
+}
+body.dark-mode {
+    --bg-color: #343a40;
+    --text-color: #f8f9fa;
+    --card-bg: #495057;
+    --card-shadow: rgba(0, 0, 0, 0.5);
+    --h1-color: #f8f9fa;
+    --h2-color: orange;
+}
+.card-body {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px var(--card-shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+}
 
 h1 {
     text-align: center;
