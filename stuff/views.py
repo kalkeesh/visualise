@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg') 
@@ -85,34 +85,55 @@ def home(request):
     error_message = None 
     material2 = None
     month2 = None
-    
+    materiallist = ['steel', 'oil', 'corn', 'grain', 'gasoline', 'lumber', 'wood', 'rubber',
+                 'hydrogen', 'oxygen', 'bauxite', 'iron', 'magnesium', 'manganese', 
+                 'cobalt', 'nickle', 'silver']
+    monthslist = ['January', 'February', 'March', 'April', 'May', 'June', 
+              'July', 'August', 'September', 'October', 'November', 'December']
+    if request.method == 'POST':
+        material1 = request.POST.get('colname1')
+        image_stream = columnplot(material1)
+        file_name = f'plot_{material1}.png'
+        file_path = default_storage.save(file_name, image_stream)
+        image_url = default_storage.url(file_path)  
+    return render(request, 'home.html', {'image_url': image_url, 'error_message': error_message, 'material2': material2, 'month2': month2,"materials":materiallist,"months":monthslist})
+
+def home2(request):
+    """Handles requests for the home page, including plotting single materials, comparing two materials, or comparing two months."""
+    image_url = None
+    error_message = None 
+    material2 = None
+    month2 = None
+    materiallist = ['steel', 'oil', 'corn', 'grain', 'gasoline', 'lumber', 'wood', 'rubber',
+                 'hydrogen', 'oxygen', 'bauxite', 'iron', 'magnesium', 'manganese', 
+                 'cobalt', 'nickle', 'silver']
+    monthslist = ['January', 'February', 'March', 'April', 'May', 'June', 
+              'July', 'August', 'September', 'October', 'November', 'December']
     if request.method == 'POST':
         material1 = request.POST.get('colname1')
         material2 = request.POST.get('colname2')
+        image_stream = compare_material(material1, material2) if material2 else columnplot(material1)
+        file_name = f'plot_{material1}vs{material2}.png' if material2 else f'plot_{material1}.png'
+        file_path = default_storage.save(file_name, image_stream)
+        image_url = default_storage.url(file_path)
+    return render(request, 'home.html', {'image_url': image_url, 'error_message': error_message, 'material2': material2, 'month2': month2,"materials":materiallist,"months":monthslist})
+
+def home3(request):
+    """Handles requests for the home page, including plotting single materials, comparing two materials, or comparing two months."""
+    image_url = None
+    error_message = None 
+    material2 = None
+    month2 = None
+    materiallist = ['steel', 'oil', 'corn', 'grain', 'gasoline', 'lumber', 'wood', 'rubber',
+                 'hydrogen', 'oxygen', 'bauxite', 'iron', 'magnesium', 'manganese', 
+                 'cobalt', 'nickle', 'silver']
+    monthslist = ['January', 'February', 'March', 'April', 'May', 'June', 
+              'July', 'August', 'September', 'October', 'November', 'December']
+    if request.method == 'POST':
         month1 = request.POST.get('monthname1')
         month2 = request.POST.get('monthname2')
-
-        if month2:  # If month comparison is requested
-            image_stream = compare_month(month1, month2)
-        elif material2:  # If material comparison is requested
-            image_stream = compare_material(material1, material2)
-        else:  # Otherwise, plot the single material
-            image_stream = columnplot(material1)
-
-        if image_stream:
-            if month2:
-                file_name = f'compare_{month1}vs{month2}.png'
-            elif material2:
-                file_name = f'plot_{material1}vs{material2}.png'
-            else:
-                file_name = f'plot_{material1}.png'
-                
-            file_path = default_storage.save(file_name, image_stream)
-            image_url = default_storage.url(file_path)
-        else:
-            if month2:
-                error_message = f"One or both rows '{month1}' and '{month2}' do not exist. Please enter valid month names."
-            else:
-                error_message = f"One or both columns '{material1}' and '{material2}' do not exist. Please enter valid material names."
-        
-    return render(request, 'home.html', {'image_url': image_url, 'error_message': error_message, 'material2': material2, 'month2': month2})
+        image_stream = compare_month(month1, month2)
+        file_name = f'compare_{month1}vs{month2}.png'
+        file_path = default_storage.save(file_name, image_stream)
+        image_url = default_storage.url(file_path)
+    return render(request, 'home.html', {'image_url': image_url, 'error_message': error_message, 'material2': material2, 'month2': month2,"materials":materiallist,"months":monthslist})
