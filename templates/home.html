@@ -46,8 +46,10 @@
                             <input type="submit" value="Plot" class="btn btn-primary mt-3">
                         </form>
                         {% if image_url and not material2 and not month2 %}
-                        <h2>Plot:</h2>
+                        <h2>Plot:</h2><center>
+                        <div class="col-md-8">
                         <img src="{{ image_url }}" alt="Plot Image" class="img-fluid">
+                        </div></center>
                         {% endif %}
                     </div>
                 </div>

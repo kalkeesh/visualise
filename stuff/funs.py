@@ -12,15 +12,25 @@ df = pd.read_csv(file_path)
 df = df.set_index('Month')
 
 def columnplot(column_name,colour):
-    if column_name not in df.columns:
-        return None 
     data = df[column_name]
-    plt.figure(figsize=(10, 6))
-    plt.bar(data.index, data, color=colour)
-    plt.xlabel('Month')
-    plt.ylabel('Value')
-    plt.title(f'Bar Chart for {column_name}')
-    plt.xticks(rotation=45)
+    labels = data.index
+    sizes = data.values
+    colors = plt.cm.Paired(range(len(data)))  
+    plt.figure(figsize=(8, 8))
+    wedges, texts, autotexts = plt.pie(
+        sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90,
+        shadow=True, wedgeprops={'edgecolor': 'black', 'linewidth': 1}
+    )
+    for text in texts:
+        text.set_fontsize(12)
+        text.set_fontweight('bold')
+    for autotext in autotexts:
+        autotext.set_fontsize(12)
+        autotext.set_fontweight('bold')
+    
+    plt.title(f'Pie Chart for {column_name}', fontsize=14, fontweight='bold')
+    plt.axis('equal')  
+    plt.tight_layout()
     image_stream = io.BytesIO()
     plt.savefig(image_stream, format='png')
     plt.close()
@@ -90,3 +100,13 @@ def compare_month_element(row1, row2, column):
     plt.close()
     image_stream.seek(0)
     return image_stream
+
+    # if column_name not in df.columns:
+    #     return None 
+    # data = df[column_name]
+    # plt.figure(figsize=(10, 6))
+    # plt.bar(data.index, data, color=colour)
+    # plt.xlabel('Month')
+    # plt.ylabel('Value')
+    # plt.title(f'Bar Chart for {column_name}')
+    # plt.xticks(rotation=45)
