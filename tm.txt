@@ -1,0 +1,15 @@
+myproject(visualize)/
+├── myapp(stuff)/
+│   ├── views.py
+│   ├── urls.py
+│   ├── funs.py
+│   └── ...
+├── templates/
+│   └── home.html
+├── static/
+│   └── main.css
+├── myproject(visualize)/
+│   ├── settings.py
+│   ├── urls.py
+│   ├── ...
+└── manage.py

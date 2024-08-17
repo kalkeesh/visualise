@@ -17,7 +17,8 @@ def home(request):
     month2 = None
     if request.method == 'POST':
         material1 = request.POST.get('colname1')
-        image_stream = columnplot(material1)
+        colour = request.POST.get('colour')
+        image_stream = columnplot(material1,colour)
         file_name = f'plot_{material1}.png'
         file_path = default_storage.save(file_name, image_stream)
         image_url = default_storage.url(file_path)  

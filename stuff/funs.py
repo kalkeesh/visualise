@@ -11,12 +11,12 @@ file_path = os.path.join(settings.STATICFILES_DIRS[0], 'yamnew.csv')
 df = pd.read_csv(file_path)
 df = df.set_index('Month')
 
-def columnplot(column_name):
+def columnplot(column_name,colour):
     if column_name not in df.columns:
         return None 
     data = df[column_name]
     plt.figure(figsize=(10, 6))
-    plt.bar(data.index, data, color='skyblue')
+    plt.bar(data.index, data, color=colour)
     plt.xlabel('Month')
     plt.ylabel('Value')
     plt.title(f'Bar Chart for {column_name}')
