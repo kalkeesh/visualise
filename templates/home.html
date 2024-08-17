@@ -13,7 +13,9 @@
 </head>
 <body class="light-mode">
     <div class="container">
-        <button id="theme-toggle" class="btn btn-secondary">Toggle Dark Mode</button>
+        <button id="theme-toggle" class="btn btn-secondary toggle-switch">
+            <div class="toggle-switch-inner"></div>
+        </button>
         
         <h1>Visualize Data</h1>
         <div class="row">
@@ -190,11 +192,11 @@
                 if (document.body.classList.contains('light-mode')) {
                     document.body.classList.replace('light-mode', 'dark-mode');
                     localStorage.setItem('theme', 'dark-mode');
-                    toggleButton.textContent = 'Toggle Light Mode';
+                    toggleButton.classList.add('on');
                 } else {
                     document.body.classList.replace('dark-mode', 'light-mode');
                     localStorage.setItem('theme', 'light-mode');
-                    toggleButton.textContent = 'Toggle Dark Mode';
+                    toggleButton.classList.remove('on');
                 }
             });
         };
