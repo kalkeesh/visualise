@@ -22,40 +22,40 @@
                     <button class="list-group-item list-group-item-action" onclick="showSection('single-material')">Single Material Plot</button>
                     <button class="list-group-item list-group-item-action" onclick="showSection('compare-materials')">Compare Materials</button>
                     <button class="list-group-item list-group-item-action" onclick="showSection('compare-months')">Compare Months</button>
+                    <button class="list-group-item list-group-item-action" onclick="showSection('compare-months-element')">Monthly Element</button>
                 </div>
             </div>
             <div class="col-md-9">
+                <!-- Single Material Plot Section -->
                 <div id="single-material" class="content-section">
                     <div class="card card-body">
                         <h2>Single Material Plot</h2>
                         <form action="{% url 'home' %}" method="POST">
                             {% csrf_token %}
-                            <input type="hidden" name="section" value="single-material">
-                            <label for="material" class="form-label"></label>
+                            <label for="material" class="form-label">Select Material:</label>
                             <div class="col-md-4">
-
-                            <select id="material" name="colname1" class="form-select">
-                                {% for material in materials %}
-                                <option value="{{ material }}">{{ material }}</option>
-                                {% endfor %}
-                            </select>
-                            <input type="color" name="colour"  value="#87CEEB">
+                                <select id="material" name="colname1" class="form-select">
+                                    {% for material in materials %}
+                                    <option value="{{ material }}">{{ material }}</option>
+                                    {% endfor %}
+                                </select>
+                                <input type="color" name="colour" value="#87CEEB" class="mt-3">
                             </div>
                             <input type="submit" value="Plot" class="btn btn-primary mt-3">
                         </form>
                         {% if image_url and not material2 and not month2 %}
                         <h2>Plot:</h2>
-                        <img src="{{ image_url }}" alt="Plot Image">
+                        <img src="{{ image_url }}" alt="Plot Image" class="img-fluid">
                         {% endif %}
                     </div>
                 </div>
 
+                <!-- Compare Materials Section -->
                 <div id="compare-materials" class="content-section" style="display: none;">
                     <div class="card card-body">
                         <h2>Compare Materials</h2>
                         <form action="{% url 'home2' %}" method="POST">
                             {% csrf_token %}
-                            <input type="hidden" name="section" value="compare-materials">
                             <div class="row">
                                 <div class="col">
                                     <label for="material1" class="form-label">Select Material 1:</label>
@@ -78,17 +78,17 @@
                         </form>
                         {% if image_url and material2 %}
                         <h2>Comparison Plot:</h2>
-                        <img src="{{ image_url }}" alt="Comparison Plot Image">
+                        <img src="{{ image_url }}" alt="Comparison Plot Image" class="img-fluid">
                         {% endif %}
                     </div>
                 </div>
 
+                <!-- Compare Months Section -->
                 <div id="compare-months" class="content-section" style="display: none;">
                     <div class="card card-body">
                         <h2>Compare Months</h2>
                         <form action="{% url 'home3' %}" method="POST">
                             {% csrf_token %}
-                            <input type="hidden" name="section" value="compare-months">
                             <div class="row">
                                 <div class="col">
                                     <label for="month1" class="form-label">Select Month 1:</label>
@@ -111,7 +111,50 @@
                         </form>
                         {% if image_url and month2 %}
                         <h2>Month Comparison Plot:</h2>
-                        <img src="{{ image_url }}" alt="Month Comparison Plot Image">
+                        <img src="{{ image_url }}" alt="Month Comparison Plot Image" class="img-fluid">
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Monthly Element Section -->
+                <div id="compare-months-element" class="content-section" style="display: none;">
+                    <div class="card card-body">
+                        <h2>Compare Monthly Element</h2>
+                        <form action="{% url 'home4' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    <label for="month1" class="form-label">Select Month 1:</label>
+                                    <select id="month1" name="monthname1" class="form-select">
+                                        {% for month in months %}
+                                        <option value="{{ month|lower }}">{{ month }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="month2" class="form-label">Select Month 2:</label>
+                                    <select id="month2" name="monthname2" class="form-select">
+                                        {% for month in months %}
+                                        <option value="{{ month|lower }}">{{ month }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="material1" class="form-label">Select Material:</label>
+                                    <select id="material1" name="material1" class="form-select">
+                                        {% for material in materials %}
+                                        <option value="{{ material }}">{{ material }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="submit" value="Compare Monthly Element" class="btn btn-primary mt-3">
+                        </form>
+                        {% if image_url and month2 and material2 %}
+                        <h2>Monthly Element Comparison Plot:</h2>
+                        <center><div class="col-md-8">
+                        <img src="{{ image_url }}" alt="Monthly Element Comparison Plot Image" class="img-fluid">
+                        </div></center>
                         {% endif %}
                     </div>
                 </div>

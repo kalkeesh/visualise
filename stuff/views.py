@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.core.files.storage import default_storage
-from .funs import compare_month, compare_material, columnplot
+from .funs import compare_month, compare_material, columnplot, compare_month_element
 
 materiallist = ['steel', 'oil', 'corn', 'grain', 'gasoline', 'lumber', 'wood', 'rubber',
                 'hydrogen', 'oxygen', 'bauxite', 'iron', 'magnesium', 'manganese', 
@@ -10,7 +10,6 @@ monthslist = ['January', 'February', 'March', 'April', 'May', 'June',
 
 
 def home(request):
-    """Handles requests for the home page, including plotting single materials, comparing two materials, or comparing two months."""
     image_url = None
     error_message = None 
     material2 = None
@@ -29,7 +28,6 @@ def home(request):
                                          "months":monthslist})
 
 def home2(request):
-    """Handles requests for the home page, including plotting single materials, comparing two materials, or comparing two months."""
     image_url = None
     material2 = None
     month2 = None
@@ -47,7 +45,6 @@ def home2(request):
                                          "months":monthslist})
 
 def home3(request):
-    """Handles requests for the home page, including plotting single materials, comparing two materials, or comparing two months."""
     image_url = None
     material2 = None
     month2 = None
@@ -56,6 +53,23 @@ def home3(request):
         month2 = request.POST.get('monthname2')
         image_stream = compare_month(month1, month2)
         file_name = f'compare_{month1}vs{month2}.png'
+        file_path = default_storage.save(file_name, image_stream)
+        image_url = default_storage.url(file_path)
+    return render(request, 'home.html', {'image_url': image_url,
+                                         'material2': material2,
+                                         'month2': month2,
+                                         "materials":materiallist,
+                                         "months":monthslist})
+def home4(request):
+    image_url = None
+    material2 = None
+    month2 = None
+    if request.method == 'POST':
+        month1 = request.POST.get('monthname1')
+        month2 = request.POST.get('monthname2')
+        material2 = request.POST.get('material1')
+        image_stream = compare_month_element(month1, month2, material2)
+        file_name = f'compare_{month1}vs{month2}for{material2}.png'
         file_path = default_storage.save(file_name, image_stream)
         image_url = default_storage.url(file_path)
     return render(request, 'home.html', {'image_url': image_url,

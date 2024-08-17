@@ -71,3 +71,22 @@ def compare_month(row1, row2):
     plt.close()
     image_stream.seek(0)
     return image_stream
+
+
+def compare_month_element(row1, row2, column):
+    data1 = df.loc[row1, column]
+    data2 = df.loc[row2, column]
+    plt.figure(figsize=(5, 5))
+    plt.bar([row1, row2], [data1, data2], color=['skyblue', 'orange'], width=0.4)
+    plt.xlabel('Month', fontsize=12, fontweight='bold')
+    plt.ylabel('Value', fontsize=12, fontweight='bold')
+    plt.title(f'{column} in {row1} & {row2}', fontsize=14, fontweight='bold')
+    plt.yticks(fontsize=10, fontweight='bold')
+    plt.xticks(fontsize=10, fontweight='bold')
+    plt.grid(axis='y')
+    plt.tight_layout()
+    image_stream = io.BytesIO()
+    plt.savefig(image_stream, format='png')
+    plt.close()
+    image_stream.seek(0)
+    return image_stream
